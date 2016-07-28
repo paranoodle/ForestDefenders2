@@ -1,0 +1,207 @@
+<Screen>:
+    canvas.before:
+        BorderImage:
+            size: root.size
+            pos: root.pos
+            source: "images/fd2_frame2.png"
+            border: 25, 25, 25, 25
+
+<LoadingScreen>:
+    BoxLayout:
+        size_hint: 0.5, 0.2
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        orientation: 'vertical'
+        Label:
+            text: 'Loading...'
+        Image:
+            source: 'images/ajax-loader-light.gif'
+
+<MainMenuScreen>:
+    layout: layout
+    BoxLayout:
+        id: layout
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+        size_hint: 0.5, 1
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: 'Forest Defenders 2'
+        Button:
+            text: 'How to play'
+            on_press: root.howto()
+        Button:
+            text: 'Training Mode'
+            on_press: root.training_mode()
+        Button:
+            text: 'Free Mode'
+            on_press: root.free_mode()
+
+<HowToScreen>:
+    bback: bback
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+        Label:
+            size_hint_y: 0.2
+            text: 'How to play'
+        Label:
+            font_size: 20
+            text: root.text
+        Button:
+            id: bback
+            size_hint: 0.5, 0.2
+            pos_hint: {'center_x': 0.5}
+            text: 'Back'
+            on_press: root.back()
+
+<TrainingModeScreen>:
+    layout: layout
+    BoxLayout:
+        id: layout
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+        size_hint: 0.5, 1
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: 'Training Mode'
+        Button:
+            text: 'Easy Levels'
+            on_press: root.levels("Easy")
+        Button:
+            text: 'Intermediate\nLevels'
+            on_press: root.levels("Intermediate")
+        Button:
+            text: 'Hard Levels'
+            on_press: root.levels("Hard")
+        Button:
+            text: 'Back'
+            on_press: root.back()
+            size_hint_y: 0.5
+
+<TrainingLevelScreen>:
+    layout: layout
+    grid: grid
+    BoxLayout:
+        id: layout
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+        Label:
+            size_hint_y: 0.2
+            text: 'Training Mode - ' + root.difficulty
+        GridLayout:
+            id: grid
+            spacing: 10
+            cols: 4
+        Button:
+            text: 'Back'
+            on_press: root.back()
+            size_hint_y: 0.5
+
+<GameOverScreen>:
+    on_touch_down: root.cont()
+    BoxLayout:
+        size_hint: 0.5, 0.2
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        orientation: 'vertical'
+        Label:
+            text: root.title
+        Label:
+            font_size: 20
+            text: 'Click anywhere/Press any button\nto continue'
+
+<GameScreen>:
+    image: image
+    tree: tree
+    cutter: cutter
+    layout: layout
+    label_box: labelling
+    color_picker: color_picker
+    canvas:
+        Color:
+            rgba: 0.337, 0.262, 0.203, 1
+        Rectangle:
+            size: root.size
+            pos: root.pos
+    RelativeLayout:
+        id: layout
+        pos: root.pos
+        size: root.size
+        ButtonBox:
+            id: tree_box
+            size_hint: None, 1
+            width: cutter_box.height
+            pos_hint: {'x': 0, 'y':0}
+        Image:
+            id: tree
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: None, None
+            size: tree_box.width, tree_box.width
+            pos_hint: {'x': 0, 'y': 0}
+            source: 'images/fd2_sapling.png'
+        ButtonBox:
+            id: cutter_box
+            size_hint: None, 0.2
+            width: root.width - self.height
+            pos_hint: {'y': 0}
+            x: self.height
+        Image:
+            id: cutter
+            size_hint: 0.2, 0.2
+            pos_hint: {'right': 1, 'y': 0}
+            source: 'images/fd2_cutter.png'
+        ButtonBox:
+            background_normal: "images/fd2_frame2.png"
+            pos_hint: {}
+            pos: cutter_box.height, cutter_box.height
+            size_hint: None, None
+            size: root.width - labelling.width - cutter_box.height, root.height - cutter_box.height
+        RelativeLayout:
+            pos_hint: {'y': 0.2}
+            x: cutter_box.height
+            size_hint: None, None
+            size: root.width - labelling.width - cutter_box.height, root.height - cutter_box.height
+            ImageWidget:
+                id: image
+                pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                size_hint: None, 0.9
+                width: self.height
+                source: root.source
+        ButtonBox:
+            size_hint: None, 0.8
+            width: 0.4 * root.width - cutter_box.height
+            pos_hint: {'right': 1, 'top': 1}
+            background_normal: "images/fd2_frame2.png"
+        GridLayout:
+            id: labelling
+            size_hint: None, 0.7
+            width: 0.4 * root.width - cutter_box.height
+            pos_hint: {'right': 1, 'top': 1}
+            padding: 20
+            spacing: 10
+            cols: 2
+        BoxLayout:
+            size_hint: None, 0.1
+            width: 0.4 * root.width - cutter_box.height
+            pos_hint: {'right': 1, 'y': 0.2}
+            padding: 10
+            spacing: 20
+            orientation: 'horizontal'
+            Button:
+                text: '[b]<[/b]'
+                on_press: root.display_fragments(-config.fragment_count)
+            Button:
+                text: '[b]>[/b]'
+                on_press: root.display_fragments(config.fragment_count)
+        Button:
+            id: color_picker
+            size_hint: None, 0.8
+            width: 0.4 * root.width - cutter_box.height
+            pos_hint: {'right': 1, 'top': 1}
+            text: "Please select\nforest color\non map\nbefore starting\n\n\n[color=#00ff00]fragment\nforest color[/color]\n[color=#000000]fragment\nnot-forest color[/color]"
+            on_press: pass
+            background_down: self.background_normal

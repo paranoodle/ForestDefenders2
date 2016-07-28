@@ -1,0 +1,76 @@
+<Label>:
+    font_size: 32
+    color: 0.337, 0.262, 0.203, 1
+    halign: 'center'
+    markup: True
+    text_size: self.size
+
+<Button>:
+    valign: 'middle'
+    halign: 'center'
+    font_size: 16
+    color: 0.945, 0.843, 0.317, 1
+    background_normal: "images/fd2_frame3.png"
+    background_down: "images/fd2_frame3b.png"
+    border: 25, 25, 25, 25
+
+<ScatterButton>:
+    color: 0.337, 0.262, 0.203, 1
+    background_normal: "images/fd2_scatter.png"
+    background_down: self.background_normal
+    border: 20, 20, 20, 20
+
+<ImageWidget>:
+    size_hint: None, None
+    allow_stretch: True
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: root.pos
+            size: root.size
+
+<ScatterFragment>:
+    buttons: buttons
+    size_hint: None, None
+    do_collide_after_children: True
+    Image:
+        id: image
+        texture: root.tex
+        allow_stretch: True
+        keep_ration: False
+    BoxLayout:
+        id: buttons
+        size: 100, image.height
+        pos: image.right, image.y
+        orientation: 'vertical'
+
+<TreeWidget>:
+    Image:
+        allow_stretch: True
+        keep_ratio: False
+        pos_hint: {'x': 0}
+        y: tree_root.top
+        size_hint: 1, None
+        height: root.height - tree_top.height - tree_root.height
+        source: 'images/fd2_tree_trunk.png'
+    Image:
+        id: tree_root
+        allow_stretch: True
+        pos_hint: {'x': 0, 'y': 0}
+        height: self.width / self.image_ratio
+        y: root.y
+        source: 'images/fd2_tree_root.png'
+    Image:
+        id: tree_top
+        allow_stretch: True
+        pos_hint: {'x': 0, 'top': 1}
+        top: root.top
+        height: self.width / self.image_ratio
+        source: 'images/fd2_tree_top.png'
+
+<ButtonBox@Button>:
+    background_normal: "images/fd2_frame.png"
+    background_down: self.background_normal
+    border: 25, 25, 50, 25
+    on_press: pass
